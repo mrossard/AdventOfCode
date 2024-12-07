@@ -3,4 +3,4 @@
 docker
 Dockerfile
 
-day*/*.txt
+2024/day*/example*.txt
