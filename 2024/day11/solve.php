@@ -2,10 +2,10 @@
 
 $input = array_map(fn($str) => (int)$str, explode(' ', file($argv[1], FILE_IGNORE_NEW_LINES)[0]));
 
-function blink(int $stone, array &$precalculated, int $remainingBlinks): int
+function blink(int $stone, array &$precomputed, int $remainingBlinks): int
 {
-    if (($precalculated[$stone][$remainingBlinks] ?? null) !== null) {
-        return $precalculated[$stone][$remainingBlinks];
+    if (($precomputed[$stone][$remainingBlinks] ?? null) !== null) {
+        return $precomputed[$stone][$remainingBlinks];
     }
 
     if ($stone === 0) {
@@ -22,12 +22,12 @@ function blink(int $stone, array &$precalculated, int $remainingBlinks): int
     if ($remainingBlinks > 1) {
         $nbStones = 0;
         foreach ($result as $res) {
-            $nbStones += blink($res, $precalculated, $remainingBlinks - 1);
+            $nbStones += blink($res, $precomputed, $remainingBlinks - 1);
         }
     } else {
         $nbStones = count($result);
     }
-    $precalculated[$stone][$remainingBlinks] = $nbStones;
+    $precomputed[$stone][$remainingBlinks] = $nbStones;
 
     return $nbStones;
 }
