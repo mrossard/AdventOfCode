@@ -2,7 +2,7 @@
 
 $input = array_map(fn($str) => (int)$str, explode(' ', file($argv[1], FILE_IGNORE_NEW_LINES)[0]));
 
-function blink(int $stone, array &$precalculated, int $remainingBlinks): array
+function blink(int $stone, array &$precalculated, int $remainingBlinks): int
 {
     if (($precalculated[$stone][$remainingBlinks] ?? null) !== null) {
         return $precalculated[$stone][$remainingBlinks];
@@ -20,15 +20,16 @@ function blink(int $stone, array &$precalculated, int $remainingBlinks): array
     }
 
     if ($remainingBlinks > 1) {
-        $copy = $result;
-        $result = [];
-        foreach ($copy as $res) {
-            $result = array_merge($result, blink($res, $precalculated, $remainingBlinks - 1));
+        $nbStones = 0;
+        foreach ($result as $res) {
+            $nbStones += blink($res, $precalculated, $remainingBlinks - 1);
         }
+    } else {
+        $nbStones = count($result);
     }
-    $precalculated[$stone][$remainingBlinks] = $result;
+    $precalculated[$stone][$remainingBlinks] = $nbStones;
 
-    return $result;
+    return $nbStones;
 }
 
 $precomputed = [];
@@ -36,5 +37,5 @@ $results = array_map(
     fn($stone) => blink($stone, $precomputed, $argv[2]),
     $input
 );
-$result = array_merge(...$results);
-echo 'part 1 : ' . count($result) . PHP_EOL;
+$result = array_sum($results);
+echo 'result : ' . $result . PHP_EOL;
