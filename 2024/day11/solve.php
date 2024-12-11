@@ -8,16 +8,12 @@ function blink(int $stone, array &$precomputed, int $remainingBlinks): int
         return $precomputed[$stone][$remainingBlinks];
     }
 
-    if ($stone === 0) {
-        $result = [1];
-    } else {
-        $digits = strlen($stone);
-        if ($digits % 2 === 0) {
-            $result = [(int)substr($stone, 0, $digits / 2), (int)substr($stone, $digits / 2)];
-        } else {
-            $result = [$stone * 2024];
-        }
-    }
+    $digits = strlen($stone);
+    $result = match (true) {
+        $stone === 0 => [1],
+        $digits % 2 === 0 => [(int)substr($stone, 0, $digits / 2), (int)substr($stone, $digits / 2)],
+        default => [$stone * 2024]
+    };
 
     if ($remainingBlinks > 1) {
         $nbStones = 0;
