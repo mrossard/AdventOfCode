@@ -44,4 +44,4 @@ $result = $banks
     }
     |> array_sum(...);
 
-echo 'part 2 : ', $result, PHP_EOL;
+echo 'result : ', $result, PHP_EOL;
