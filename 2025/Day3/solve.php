@@ -17,22 +17,16 @@ function findMax(string $bank): int
 $result = $banks
     |> function($banks) use ($numberOfBatteries){
             return array_map(
-                callback: function(string $bank) use($numberOfBatteries) {
+                callback: function(string $bank) use ($numberOfBatteries): int {
                     $currentChar = 0;
                     $previousPosition = -1;
                     $chars = [];
                     while($currentChar < $numberOfBatteries) {
                         $length = 0 - ($numberOfBatteries - $currentChar) + 1;
-                        if($length == 0){
-                            $length = null;
+                        if($length == 0) {
+                            $length = null; //si pas de marge, on prend tout (substr prend 0 comme "positif")
                         }
-                        $maxChar = findMax(
-                            substr(
-                                $bank,
-                                $previousPosition + 1,
-                                $length
-                            )
-                            ) + $previousPosition + 1;
+                        $maxChar = findMax(substr($bank,$previousPosition + 1, $length)) + $previousPosition + 1;
                         $chars[] = $bank[$maxChar];
                         $currentChar++;
                         $previousPosition = $maxChar;
